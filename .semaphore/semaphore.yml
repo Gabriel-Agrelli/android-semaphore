@@ -34,6 +34,7 @@ blocks:
       jobs:
         - name: 'Build Project'
           commands:
+            - sem-version java 11
             - ./gradlew bundle
       epilogue:
         on_pass:
