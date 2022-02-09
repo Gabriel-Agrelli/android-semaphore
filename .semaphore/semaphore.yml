@@ -11,8 +11,6 @@ global_job_config:
   env_vars:
     - name: ADB_INSTALL_TIMEOUT
       value: '10'
-  secrets:
-    - name: android_keys
   prologue:
     commands:
       - checkout
