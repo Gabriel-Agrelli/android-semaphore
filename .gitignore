@@ -77,4 +77,3 @@ lint/reports/
 
 # keys
 /app/service-account-key.json
-*.jks
