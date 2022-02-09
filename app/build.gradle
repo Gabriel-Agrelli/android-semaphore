@@ -6,6 +6,10 @@ plugins {
     id 'io.gitlab.arturbosch.detekt'
 }
 
+def keystorePropertiesFile = rootProject.file("app/keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
 android {
     compileSdkVersion 30
 
@@ -22,10 +26,10 @@ android {
 
     signingConfigs {
         release {
-            storeFile file("keystore.jks")
-            storePassword System.getenv("123456")
-            keyAlias System.getenv("semaphore")
-            keyPassword System.getenv("123456")
+            storeFile file(keystoreProperties["storeFile"])
+            storePassword keystoreProperties["keyPassword"]
+            keyAlias keystoreProperties["keyAlias"]
+            keyPassword keystoreProperties["storePassword"]
         }
     }
 
@@ -38,6 +42,8 @@ android {
             minifyEnabled false
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize' + '.txt'), 'proguard-rules.pro'
+
+            signingConfig signingConfigs.release
         }
     }
 
