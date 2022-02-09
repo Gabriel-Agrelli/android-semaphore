@@ -1,0 +1,16 @@
+version: v1.0
+name: Pipeline 3
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+blocks:
+  - name: Delpoy
+    task:
+      jobs:
+        - name: Deploy to staging
+          commands:
+            - echo "deploying to staging using key $API_KEY"
+      env_vars:
+        - name: API_KEY
+          value: '1234'
