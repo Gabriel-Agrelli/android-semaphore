@@ -7,6 +7,18 @@ agent:
   containers:
     - name: main
       image: 'registry.semaphoreci.com/android:30'
+global_job_config:
+  env_vars:
+    - name: ADB_INSTALL_TIMEOUT
+      value: '10'
+  secrets:
+    - name: android_keys
+  prologue:
+    commands:
+      - checkout
+      - cache restore gradle-wrapper
+      - cache restore gradle-cache
+      - cache restore android-build
 blocks:
   - name: Build
     skip:
