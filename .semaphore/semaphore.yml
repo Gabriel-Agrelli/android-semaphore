@@ -41,7 +41,7 @@ blocks:
       jobs:
         - name: Unit tests
           commands:
-            - echo 'running unit tests'
+            - echo 'blablabla'
         - name: Integration tests
           commands:
             - echo 'running integration tests'
