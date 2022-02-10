@@ -21,8 +21,7 @@ class RepoRemoteDataSourceTest {
 
     private lateinit var remoteDataSource: RepoRemoteDataSource
 
-    private val successResponse =
-        NetworkTestUtil.getFixtureResponse("RepoList.json")
+    private val successResponse = NetworkTestUtil.getFixtureResponse("RepoList.json")
     private val errorResponse = NetworkTestUtil.getServerErrorResponse()
 
     @Before
@@ -39,7 +38,7 @@ class RepoRemoteDataSourceTest {
     }
 
     @Test
-    fun getSemaphoreRepos_should_use_correct_endpoint() = runBlocking {
+    fun `Get Semaphore repos should use correct endpoint`() = runBlocking {
         // arrange
         mockServer.enqueue(successResponse)
         // act
@@ -52,7 +51,7 @@ class RepoRemoteDataSourceTest {
     }
 
     @Test
-    fun getSemaphoreRepos_should_return_repos_list() = runBlocking {
+    fun `Get Semaphore repos should return repos list`() = runBlocking {
         // arrange
         mockServer.enqueue(successResponse)
         // act
@@ -63,7 +62,7 @@ class RepoRemoteDataSourceTest {
     }
 
     @Test
-    fun getSemaphoreRepos_should_return_server_error() = runBlocking {
+    fun `Get Semaphore repos should return server error`() = runBlocking {
         // arrange
         mockServer.enqueue(errorResponse)
         // act

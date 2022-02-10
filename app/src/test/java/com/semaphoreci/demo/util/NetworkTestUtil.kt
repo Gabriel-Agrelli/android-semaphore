@@ -2,13 +2,13 @@ package com.semaphoreci.demo.util
 
 import com.google.gson.GsonBuilder
 import com.haroldadmin.cnradapter.NetworkResponseAdapterFactory
-import java.nio.charset.Charset
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import okio.buffer
 import okio.source
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.nio.charset.Charset
 
 object NetworkTestUtil {
     internal fun getNetworkClient(server: MockWebServer): Retrofit {
@@ -32,6 +32,7 @@ object NetworkTestUtil {
 
         val mockResponse = MockResponse()
         mockResponse.setBody(source.readString(Charset.defaultCharset()))
+
         for ((key, value) in headers) {
             mockResponse.addHeader(key, value)
         }

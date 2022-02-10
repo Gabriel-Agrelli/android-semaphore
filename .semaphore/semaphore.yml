@@ -33,18 +33,34 @@ blocks:
             - cache store gradle-wrapper ~/.gradle/wrapper
             - cache store gradle-cache ~/.gradle/caches
             - cache store android-build ~/.android/build-cache
-  - name: Tests
+  - name: Verification
+    skip:
+      when: "pull_request !~ '.*'"
     task:
-      prologue:
-        commands:
-          - checkout
       jobs:
+        - name: Analyze code
+          commands:
+            - ./gradlew detekt
         - name: Unit tests
           commands:
-            - echo 'blablabla'
-        - name: Integration tests
+            - ./gradlew tests
+        - name: UI tests
           commands:
-            - echo 'running integration tests'
+            - sdkmanager "platform-tools" "platforms;android-30" "build-tools;30.0.0" "emulator"
+            - sdkmanager "system-images;android-30;google_apis;x86"
+            - echo no | avdmanager create avd -n test-emulator -k "system-images;android-30;google_apis;x86"
+            - emulator -avd test-emulator -noaudio -no-boot-anim -gpu off -no-window &
+            - adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done;'
+            - adb shell wm dismiss-keyguard
+            - sleep 1
+            - adb shell settings put global window_animation_scale 0
+            - adb shell settings put global transition_animation_scale 0
+            - adb shell settings put global animator_duration_scale 0
+            - ./gradlew connectedAndroidTest
+      epilogue:
+        always:
+          commands:
+            - artifact push job --expire-in 2w --destination reports/ app/build/reports/
 promotions:
   - name: Production deployment
     pipeline_file: pipeline_2.yml

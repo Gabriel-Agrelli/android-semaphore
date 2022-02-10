@@ -22,7 +22,7 @@ class AppFlowTest {
     val launchActivityRule = activityScenarioRule<RepoListActivity>()
 
     @Test
-    fun appFlowTest() {
+    fun shouldShowRepoDetailsWhenClick() {
         // Wait for request to get a response
         Thread.sleep(20000)
 
