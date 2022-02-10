@@ -38,16 +38,16 @@ blocks:
 #      when: "pull_request !~ '.*'"
     task:
       jobs:
-        - name: Analyze code
+        - name: "Analyze code"
           dependencies: []
           commands:
             - ./gradlew detekt
-        - name: Unit tests
-          dependencies: [ "Analyze code" ]
+        - name: "Unit tests"
+          dependencies: ["Analyze code"]
           commands:
             - ./gradlew test
-        - name: UI tests
-          dependencies: [ "Analyze code", "Unit tests"]
+        - name: "UI tests"
+          dependencies: ["Analyze code", "Unit tests"]
           commands:
             - sdkmanager "platform-tools" "platforms;android-29" "build-tools;30.0.0" "emulator"
             - sdkmanager "system-images;android-29;google_apis;x86"
