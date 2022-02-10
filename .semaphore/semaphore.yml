@@ -49,8 +49,8 @@ blocks:
     task:
       jobs:
         - name: "Unit tests"
-            commands:
-              - ./gradlew test
+          commands:
+            - ./gradlew test
         - name: "UI tests"
           commands:
             - sdkmanager "platform-tools" "platforms;android-29" "build-tools;30.0.0" "emulator"
