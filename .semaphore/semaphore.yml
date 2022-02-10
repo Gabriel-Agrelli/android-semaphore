@@ -35,7 +35,7 @@ blocks:
             - cache store gradle-cache ~/.gradle/caches
             - cache store android-build ~/.android/build-cache
   - name: "Verification"
-    dependencies: [ ]
+    dependencies: [ "Build" ]
     task:
       jobs:
         - name: "Analyze code"
