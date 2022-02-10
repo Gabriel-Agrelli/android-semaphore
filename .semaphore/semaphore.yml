@@ -33,21 +33,25 @@ blocks:
             - cache store gradle-wrapper ~/.gradle/wrapper
             - cache store gradle-cache ~/.gradle/caches
             - cache store android-build ~/.android/build-cache
-  - name: Verification
-#    skip:
-#      when: "pull_request !~ '.*'"
+  - name: "Verification"
+    dependencies: [ ]
     task:
       jobs:
         - name: "Analyze code"
-          dependencies: []
           commands:
             - ./gradlew detekt
-        - name: "Unit tests"
-          dependencies: ["Analyze code"]
+      epilogue:
+        always:
           commands:
-            - ./gradlew test
+            - artifact push job --expire-in 2w --destination reports/ app/build/reports/
+  - name: "Tests"
+    dependencies: [ "Verification" ]
+    task:
+      jobs:
+        - name: "Unit tests"
+            commands:
+              - ./gradlew test
         - name: "UI tests"
-          dependencies: ["Analyze code", "Unit tests"]
           commands:
             - sdkmanager "platform-tools" "platforms;android-29" "build-tools;30.0.0" "emulator"
             - sdkmanager "system-images;android-29;google_apis;x86"
@@ -60,10 +64,7 @@ blocks:
             - adb shell settings put global transition_animation_scale 0
             - adb shell settings put global animator_duration_scale 0
             - ./gradlew connectedAndroidTest
-      epilogue:
-        always:
-          commands:
-            - artifact push job --expire-in 2w --destination reports/ app/build/reports/
+
 promotions:
   - name: Production deployment
     pipeline_file: pipeline_2.yml
