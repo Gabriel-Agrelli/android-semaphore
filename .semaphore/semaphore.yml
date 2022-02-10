@@ -39,16 +39,19 @@ blocks:
     task:
       jobs:
         - name: Analyze code
+          dependencies: []
           commands:
             - ./gradlew detekt
         - name: Unit tests
+          dependencies: [ "Analyze code" ]
           commands:
-            - ./gradlew tests
+            - ./gradlew test
         - name: UI tests
+          dependencies: [ "Analyze code", "Unit tests"]
           commands:
-            - sdkmanager "platform-tools" "platforms;android-30" "build-tools;30.0.0" "emulator"
-            - sdkmanager "system-images;android-30;google_apis;x86"
-            - echo no | avdmanager create avd -n test-emulator -k "system-images;android-30;google_apis;x86"
+            - sdkmanager "platform-tools" "platforms;android-29" "build-tools;30.0.0" "emulator"
+            - sdkmanager "system-images;android-29;google_apis;x86"
+            - echo no | avdmanager create avd -n test-emulator -k "system-images;android-29;google_apis;x86"
             - emulator -avd test-emulator -noaudio -no-boot-anim -gpu off -no-window &
             - adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done;'
             - adb shell wm dismiss-keyguard
