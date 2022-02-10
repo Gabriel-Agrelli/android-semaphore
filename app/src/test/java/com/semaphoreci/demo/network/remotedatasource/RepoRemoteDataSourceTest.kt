@@ -52,7 +52,6 @@ class RepoRemoteDataSourceTest {
 
     @Test
     fun `Get Semaphore repos should return repos list`() = runBlocking {
-        // arrange
         mockServer.enqueue(successResponse)
         // act
         val response = remoteDataSource.getSemaphoreRepos()
