@@ -18,7 +18,8 @@ global_job_config:
       - cache restore gradle-cache
       - cache restore android-build
 blocks:
-  - name: Build
+  - name: "Build"
+    dependencies: [ ]
     skip:
       when: (branch != 'master')
     task:
